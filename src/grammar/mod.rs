@@ -66,6 +66,8 @@ pub trait Parse<Token: Clone>: Sized + std::fmt::Debug {
     /// value is the value returned by the rule.
     ///
     /// Returns Err(ParseError) if the rule fails to parse.
+    ///
+    ///TODO: Impl parse whole input?!
     fn try_parse(stream: &mut TokenStream<Token>) -> crate::Result<Token, ParseMeta<Self>>;
 }
 
