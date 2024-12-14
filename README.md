@@ -36,7 +36,7 @@ autoparser::impl_scanner! {
 - Define your grammar, each rules will define struct representing a node in the Abstract Syntax Tree. Rules are declared in [Order of precedence](https://en.wikipedia.org/wiki/Order_of_operations).
 ```rust
 autoparser::impl_rules! {
-// For performance reason you don't want to parse (.., <Token>, <Rule, ..) as the Rule. The parser an stop at the first mismatch if you only use Rules : (.., <TokenRule>, <Rule>, ..)
+// For performance reason you don't want to parse (.., <Token>, <Rule, ..) as the Rule. The parser can stop early based on types, you may only use Rules : (.., <TokenRule>, <Rule>, ..)
   AddOperator => Token::Plus, 
   SubOperator => Token::Minus,
 
