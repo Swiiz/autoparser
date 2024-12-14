@@ -7,7 +7,7 @@ All the parser generation logic (+regex building) is executed at **compile time,
 
 ## Some context
 
-While reading [Crafting Interpreters](craftinginterpreters.com) and implementing my own programming language in Rust, I explored ways to make parser creation more efficient as outlined in the book. Writing parsers can be quite repetitive, especially for verbose languages, so automating parts of this process can save significant effort.
+While reading [Crafting Interpreters](https://craftinginterpreters.com) and implementing my own programming language in Rust, I explored ways to make parser creation more efficient as outlined in the book. Writing parsers can be quite repetitive, especially for verbose languages, so automating parts of this process can save significant effort.
 
 In the book, the author uses Java and demonstrates how to write code that generates Java parser code: a form of [metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming#:~:text=Metaprogramming%20is%20a%20computer%20programming,even%20modify%20itself%2C%20while%20running.). Since I’m working with Rust, I’ve opted to leverage **Rust’s powerful macro as well as type system** to achieve a similar result. To that end, I’ve developed a library that uses macros to generate parsers.
 
@@ -36,7 +36,7 @@ autoparser::impl_scanner! {
 - Define your grammar, each rules will define struct representing a node in the Abstract Syntax Tree. Rules are declared in [Order of precedence](https://en.wikipedia.org/wiki/Order_of_operations).
 ```rust
 autoparser::impl_rules! {
-// For performance reason you don't want to parse (.., <Token>, <Rule, ..) as the Rule. The parser can stop early based on types, you may only use Rules : (.., <TokenRule>, <Rule>, ..)
+// For performance reason you don't want to parse (.., <Token>, <Rule, ..) as the Rule. The parser can stop early at the "type level", you may either use only Rules or Token in the pattern.
   AddOperator => Token::Plus, 
   SubOperator => Token::Minus,
 
