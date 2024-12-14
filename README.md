@@ -82,7 +82,7 @@ The `Token` enum, `Scanner` struct and each AST Node can now be used together:
 
 ## Example(s)
 
-- ### [Calculator](https://github.com/Swiiz/autoparser/tree/master/examples/calculator)
+- ### [Calculator](https://github.com/Swiiz/autoparser/tree/master/examples/calculator.rs)
   **Supporting -, +, \*, /, parenthesis, variables and operator priority in <100 LOC.**
 
   Run the example:
