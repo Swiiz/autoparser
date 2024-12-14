@@ -99,7 +99,7 @@ The `Token` enum, `Scanner` struct and each AST Node can now be used together:
 - **impl_scanner**
     - Generates a struct/enum for each rule with it's data. (representing the ast node)
     - `Parse<Token>` is implemented for each node struct/enum, it first matches the rule, then the data.
-    - Composite rules can be created using tuples: (A, B, C, ..), in contrast to enums the all of the children rules need to be matched for it to succeed.
+    - Composite rules can be defined using tuples, such as (A, B, C, ...). Unlike enums, composite rules require all child rules to match for the composite rule to succeed.
 
 ****************************
 
