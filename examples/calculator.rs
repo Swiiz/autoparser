@@ -27,16 +27,16 @@ pub mod ast {
       Literal { number: u32 } => Token::NumberLiteral { number },
       Identifier { name: String } => Token::Identifier { name },
 
-      enum Expr => Group | Factor,
+      enum Expr => Term,
       Group { term: Box<Expr> } => (OpenParen {}, term, CloseParen {}),
 
-      enum Factor => MulOperation | DivOperation | Term,
-      MulOperation { left: Term, right: Box<Expr> } => (left, MulOperator {}, right),
-      DivOperation { left: Term, right: Box<Expr> } => (left, DivOperator {}, right),
+      enum Term => AddOperation | SubOperation | Factor,
+      AddOperation { left: Factor, right: Box<Expr> } => (left, AddOperator {}, right),
+      SubOperation { left: Factor, right: Box<Expr> } => (left, SubOperator {}, right),
 
-      enum Term => AddOperation | SubOperation | Unary,
-      AddOperation { left: Unary, right: Box<Expr> } => (left, AddOperator {}, right),
-      SubOperation { left: Unary, right: Box<Expr> } => (left, SubOperator {}, right),
+      enum Factor => MulOperation | DivOperation | Unary,
+      MulOperation { left: Unary, right: Box<Expr> } => (left, MulOperator {}, right),
+      DivOperation { left: Unary, right: Box<Expr> } => (left, DivOperator {}, right),
 
       enum Unary => InverseOperation | Primary,
       InverseOperation { primary: Primary } => (SubOperator {}, primary),

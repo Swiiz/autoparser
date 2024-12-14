@@ -47,6 +47,7 @@ macro_rules! impl_rules {
                     end,
                     value
                 }) = (tokens.clone()).try_parse::<$first>() {
+                    tokens.advance_by(end - start);
                     return Ok($crate::ParseMeta {
                         start,
                         end,
@@ -60,6 +61,7 @@ macro_rules! impl_rules {
                         end,
                         value
                     }) = (tokens.clone()).try_parse::<$next>() {
+                        tokens.advance_by(end - start);
                         return Ok($crate::ParseMeta {
                             start,
                             end,
