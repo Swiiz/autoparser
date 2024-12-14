@@ -21,7 +21,7 @@ However, I didn’t stop at replicating the not so useful approach in the book. 
 autoparser = { git = "https://github.com/Swiiz/autoparser" }
 ```
 
-- Define your tokens
+- Define your tokens, this will generate a `Scanner` struct and a `Token` enum.
 ```rust
 autoparser::impl_scanner! {
   Whitespace @regex => "^(?<__>\\s)", // All regexes need to have a named capture group.
@@ -37,7 +37,7 @@ autoparser::impl_scanner! {
 }
 ```
 
-- Define your grammar, each rules will return a node in the Abstract Syntax Tree. Rules are declared in [Order of precedence](https://en.wikipedia.org/wiki/Order_of_operations).
+- Define your grammar, each rules will define struct representing a node in the Abstract Syntax Tree. Rules are declared in [Order of precedence](https://en.wikipedia.org/wiki/Order_of_operations).
 ```rust
 autoparser::impl_rules! {
 // For performance reason you don't want to parse (.., <Token>, <Rule, ..) as the Rule. The parser an stop at the first mismatch if you only use Rules : (.., <TokenRule>, <Rule>, ..)
@@ -60,6 +60,25 @@ autoparser::impl_rules! {
   Literal { number: u32 } => Token::NumberLiteral { number },
 }
 ```	
+
+The `Token` enum, `Scanner` struct and each AST Node can now be used together:
+```rust
+  let source = autoparser::Source {
+      name: None,
+      content: "1 + 2 - 3".into(),
+  };
+  let scanner = Scanner::new();
+
+  let scan = scanner
+      .scan(source)
+      .into_iter()
+      .filter(|t| t != &Token::Whitespace)
+      .collect::<Vec<_>>();
+
+  let mut tokens = autoparser::TokenStream::new(&scan);
+  println!("{#?}", Expr::try_parse(&mut tokens));
+```
+
 
 ## Example(s)
 
