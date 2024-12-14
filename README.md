@@ -46,7 +46,8 @@ autoparser::impl_rules! {
   OpenParen => Token::LeftParen,
   CloseParen => Token::RightParen,
 
-// On the right side of the `=>` you can use any match pattern. The type of your pattern will be the parsed. Then your match pattern will be tested. You can use @, if and more... for data manipulation, any name defined in the match will be used to construct the token.
+// On the right side of the `=>` you can use any match pattern. The type of the provided pattern will be the parsed.
+//  Then your pattern will be tested. You can use @, if and more... for data manipulation, see rust match-pattern docs.
   Literal { number: u32 } => Token::NumberLiteral { number },
 
 // Rules can also be an union of rules using the `enum` keyword and the `|` operator.
