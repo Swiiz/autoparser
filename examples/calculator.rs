@@ -28,7 +28,7 @@ pub mod ast {
       Identifier { name: String } => Token::Identifier { name },
 
       enum Expr => Term,
-      Group { term: Box<Expr> } => (OpenParen {}, term, CloseParen {}),
+      Group { expr: Box<Expr> } => (OpenParen {}, expr, CloseParen {}),
 
       enum Term => AddOperation | SubOperation | Factor,
       AddOperation { left: Factor, right: Box<Expr> } => (left, AddOperator {}, right),
