@@ -13,7 +13,7 @@ In the book, the author uses Java and demonstrates how to write code that genera
 
 However, I didn’t stop at replicating the simple approach of the book. And went for a solution to generate automatically the Scanner, [Abstract-Syntax-Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree), and Parser logic.
 
-## Usage
+## Usage (Read the [documentation](https://swiiz.github.io/autoparser/) for more information)
 
 - Add the dependency to your `Cargo.toml` file:
 ```toml
@@ -73,7 +73,6 @@ The `Token` enum, `Scanner` struct and each AST Node can now be used together:
   let mut tokens = autoparser::TokenStream::new(&scan);
   println!("{#?}", Expr::try_parse(&mut tokens));
 ```
-
 
 ## Example(s)
 
