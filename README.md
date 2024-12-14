@@ -1,6 +1,6 @@
 <h1 align=center>🤖 Autoparser 💬</h1>
 
-## Rust library to easily generate *(Recursive Descent)* Parser using macros.
+## Rust library to easily generate *([Recursive Descent](https://en.wikipedia.org/wiki/Recursive_descent_parser))* Parser using macros.
 
 This can be used to generate parsers for any language easily such as programming, markup, etc.
 All the parser generation logic (+regex building) is executed at **compile time, ensuring zero runtime overhead**.
