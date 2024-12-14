@@ -26,12 +26,8 @@ autoparser = { git = "https://github.com/Swiiz/autoparser" }
 autoparser::impl_scanner! {
   Whitespace @regex => "^(?<__>\\s)", // All regexes need to have a named capture group.
 
-  LeftParen => "(",
-  RightParen => ")",
   Minus => "-",
   Plus => "+",
-  Slash => "/",
-  Star => "*",
 
   NumberLiteral { number: u32 } @regex => "^(?<number>(\\d)+)", // Named capture group can be used as data in Token.
 }
