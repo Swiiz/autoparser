@@ -36,12 +36,12 @@ autoparser::impl_scanner! {
 - Define your grammar, each rules will define struct representing a node in the Abstract Syntax Tree. Rules are declared in [Order of precedence](https://en.wikipedia.org/wiki/Order_of_operations).
 ```rust
 autoparser::impl_rules! {
-// For performance reason you don't want to parse (.., <Token>, <Rule, ..) as the Rule. The parser can stop early based on types, you may only use Rules : (.., <TokenRule>, <Rule>, ..)
+// For performance reason you don't want to parse (.., <Token>, <Rule, ..) as the Rule. The parser can stop early at the "type level", you may either use only Rules or Token in the pattern.
   AddOperator => Token::Plus, 
   SubOperator => Token::Minus,
 
-// On the right side of the `=>` you can use any match pattern. The type of the provided pattern will be the parsed.
-// Then your pattern will be tested. You can use @, if and more... for data manipulation, see rust match-pattern docs.
+// On the right side of the `=>` you can use any match pattern. The type of the provided pattern will be parsed,
+// then your pattern will be tested. You can use @, if and more... for data manipulation, see rust match-pattern docs.
   Literal { number: u32 } => Token::NumberLiteral { number },
 
 // Rules can also be an union of rules using the `enum` keyword and the `|` operator.
