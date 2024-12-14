@@ -39,8 +39,6 @@ autoparser::impl_rules! {
 // For performance reason you don't want to parse (.., <Token>, <Rule, ..) as the Rule. The parser an stop at the first mismatch if you only use Rules : (.., <TokenRule>, <Rule>, ..)
   AddOperator => Token::Plus, 
   SubOperator => Token::Minus,
-  OpenParen => Token::LeftParen,
-  CloseParen => Token::RightParen,
 
 // On the right side of the `=>` you can use any match pattern. The type of the provided pattern will be the parsed.
 // Then your pattern will be tested. You can use @, if and more... for data manipulation, see rust match-pattern docs.
