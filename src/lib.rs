@@ -14,6 +14,7 @@ pub type Result<Tok, T> = std::result::Result<T, ParseError<Tok>>;
 //TODO: Improve ParseError
 #[derive(Debug)]
 pub enum ParseError<Tok> {
+    ScanError { sample: String },
     UnexpectedToken { token: Tok },
     Eof,
 

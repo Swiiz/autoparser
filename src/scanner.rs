@@ -49,7 +49,7 @@ macro_rules! impl_scanner {
             }
 
 
-            pub fn scan(&self, source: $crate::Source) -> Vec<Token> {
+            pub fn scan(&self, source: $crate::Source) -> $crate::Result<Token, Vec<Token>> {
                 let source_len = source.content.len();
 
                 let mut tokens = Vec::new();
@@ -102,14 +102,16 @@ macro_rules! impl_scanner {
                                 continue;
                             }
 
-                          panic!("Parse error: {}", &source.content[idx..idx + lookahead]);
+                          return Err($crate::ParseError::ScanError {
+                              sample: source.content[idx..idx + lookahead].into()
+                          });
                         }
 
                         lookahead += 1;
                     }
                 }
 
-                tokens
+                Ok(tokens)
             }
         }
 

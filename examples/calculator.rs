@@ -58,6 +58,7 @@ fn main() {
 
     let scan = scanner
         .scan(source)
+        .unwrap()
         .into_iter()
         .filter(|t| t != &Token::Whitespace)
         .collect::<Vec<_>>();
