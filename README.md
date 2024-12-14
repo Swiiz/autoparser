@@ -40,7 +40,7 @@ autoparser::impl_rules! {
   AddOperator => Token::Plus, 
   SubOperator => Token::Minus,
 
-// On the right side of the `=>` you can use any match pattern. The type of the provided pattern will be the parsed.
+// When not in enum mode, On the right side of the `=>` you can use any match pattern. The type of the provided pattern will be parsed.
 // Then your pattern will be tested. You can use @, if and more... for data manipulation, see rust match-pattern docs.
   Literal { number: u32 } => Token::NumberLiteral { number },
 
