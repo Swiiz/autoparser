@@ -2,8 +2,7 @@
 
 ## Rust library to easily generate *(Recursive Descent)* Parser using macros.
 
-**This can be used to generate [Recursive Descent Parser](https://en.wikipedia.org/wiki/Recursive_descent_parser) parsers for any language easily such as programming, markup, etc.**
-
+This can be used to generate parsers for any language easily such as programming, markup, etc.
 All the parser generation logic is executed at **compile time, ensuring zero runtime overhead**.
 
 ## Some context
