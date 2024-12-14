@@ -76,3 +76,25 @@ impl<Tok: Clone, T: Parse<Tok>> Parse<Tok> for Box<T> {
         T::try_parse(tokens).map(ParseMeta::box_value)
     }
 }
+
+impl<Tok: Clone> Parse<Tok> for () {
+    fn try_parse(tokens: &mut TokenStream<Tok>) -> crate::Result<Tok, ParseMeta<Self>> {
+        Ok(ParseMeta {
+            start: tokens.current,
+            end: tokens.current,
+            value: (),
+        })
+    }
+}
+
+#[derive(Debug)]
+pub struct NoToken;
+impl<Tok: Clone> Parse<Tok> for NoToken {
+    fn try_parse(tokens: &mut TokenStream<Tok>) -> crate::Result<Tok, ParseMeta<Self>> {
+        Ok(ParseMeta {
+            start: tokens.current,
+            end: tokens.current,
+            value: NoToken,
+        })
+    }
+}

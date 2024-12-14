@@ -87,6 +87,17 @@ The `Token` enum, `Scanner` struct and each AST Node can now be used together:
   ```
   cargo doc --example calculator --no-deps --open 
   ```
+- ### [JSON](https://github.com/Swiiz/autoparser/tree/master/examples/calculator.rs)
+  **Supporting table and arrays, int and string values in <100 LOC.**
+
+  Run the example:
+  ```
+  cargo run --example json
+  ```
+  See the generated code documentation:
+  ```
+  cargo doc --example json --no-deps --open 
+  ```
 
 ## How does it work?
 
