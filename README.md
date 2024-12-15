@@ -89,7 +89,7 @@ The `Token` enum, `Scanner` struct and each AST Node can now be used together:
   ```
 - ### [JSON](https://github.com/Swiiz/autoparser/tree/master/examples/json.rs)
   **Supporting table and arrays (with iterators), int, bool and string values in <100 LOC.**
-  Using Vec<T> and Option<T> utils to generate a compact AST.
+  Using Vec\<T\> and Option\<T\> utils to generate a compact AST.
 
   Run the example:
   ```
