@@ -1,6 +1,6 @@
 #[macro_export]
 macro_rules! impl_rules {
-    ($variant:ident $({$( $var:ident: $ty:ty),*})? => $pattern:pat , $($rest:tt)*) => {
+    ($variant:ident $({$( $var:ident: $ty:ty),+})? => $pattern:pat , $($rest:tt)*) => {
         #[derive(Debug)]
         pub struct $variant {
             $($(pub $var: $ty),*)?
@@ -15,7 +15,7 @@ macro_rules! impl_rules {
                             start,
                             end,
                             value: $variant {
-                                $($( $var ),*)?
+                                $($( $var ),+)?
                             }
                         })
                     }

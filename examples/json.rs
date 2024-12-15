@@ -8,8 +8,9 @@ autoparser::impl_scanner! {
   Comma => ",",
   Colon => ":",
 
-  StringValue { content: String } @regex => "^\"(?<content>([^\"]*))\"",
-  NumberValue { number: u32 } @regex => "^(?<number>(\\d)+)",
+  Null => "null",
+  String { content: String } @regex => "^\"(?<content>([^\"]*))\"",
+  BoolValue { value: bool } @regex => "^(?<value>true|false)",
 
   Eof => "",
 }
@@ -28,12 +29,13 @@ pub mod ast {
       Comma => Token::Comma,
       Colon => Token::Colon,
 
-      StringValue { content: String } => Token::StringValue { content },
-      NumberValue { number: u32 } => Token::NumberValue { number },
-      enum Value => StringValue | NumberValue,
+      StringValue { content: String } => Token::String { content },
+      BoolValue { value: bool } => Token::BoolValue { value },
+      NullValue => Token::Null,
+      enum Value => StringValue | BoolValue | NullValue,
 
       Root { expr: Expr } => (expr, Token::Eof),
-      enum Expr => Value | Table | Array,
+      enum Expr => Value | Object | Array,
 
       Array { content: ArrayContent } => (OpenBracket {}, content, CloseBracket {}),
       enum ArrayContent => ArrayField | NoToken,
@@ -41,11 +43,11 @@ pub mod ast {
       ArrayNextField { next: Box<ArrayField> } => (Comma {}, next),
       enum ArrayNext => ArrayNextField | NoToken,
 
-      Table { content: TableContent } => (OpenBrace {}, content, CloseBrace {}),
-      enum TableContent => TableField | NoToken,
-      TableField { key: StringValue, value: Box<Expr>, next: Box<TableNext> } => (key, Colon {}, value, next),
-      TableNextField { next: Box<TableField> } => (Comma {}, next),
-      enum TableNext => TableNextField | NoToken,
+      Object { content: ObjectContent } => (OpenBrace {}, content, CloseBrace {}),
+      enum ObjectContent => ObjectField | NoToken,
+      ObjectField { key: StringValue, value: Box<Expr>, next: Box<ObjectNext> } => (key, Colon {}, value, next),
+      ObjectNextField { next: Box<ObjectField> } => (Comma {}, next),
+      enum ObjectNext => ObjectNextField | NoToken,
     }
 }
 
