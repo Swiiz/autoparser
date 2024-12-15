@@ -1,3 +1,5 @@
+use std::{cmp::min, fmt::Debug};
+
 mod macros;
 
 /*
@@ -95,6 +97,43 @@ impl<Tok: Clone> Parse<Tok> for NoToken {
             start: tokens.current,
             end: tokens.current,
             value: NoToken,
+        })
+    }
+}
+
+impl<T: Debug + Parse<Tok>, Tok: Clone> Parse<Tok> for Option<T> {
+    fn try_parse(tokens: &mut TokenStream<Tok>) -> crate::Result<Tok, ParseMeta<Self>> {
+        match tokens.try_parse::<T>() {
+            Ok(ParseMeta { start, end, value }) => Ok(ParseMeta {
+                start,
+                end,
+                value: Some(value),
+            }),
+            Err(_) => Ok(ParseMeta {
+                start: tokens.current,
+                end: tokens.current,
+                value: None,
+            }),
+        }
+    }
+}
+
+impl<T: Debug + Parse<Tok>, Tok: Clone> Parse<Tok> for Vec<T> {
+    fn try_parse(stream: &mut TokenStream<Tok>) -> crate::Result<Tok, ParseMeta<Self>> {
+        let mut tokens = Vec::new();
+        let start = stream.current;
+        while let Ok(ParseMeta {
+            start: _,
+            end: _,
+            value,
+        }) = stream.try_parse::<T>()
+        {
+            tokens.push(value);
+        }
+        Ok(ParseMeta {
+            start,
+            end: stream.current,
+            value: tokens,
         })
     }
 }

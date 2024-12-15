@@ -17,8 +17,6 @@ autoparser::impl_scanner! {
 }
 
 pub mod ast {
-    use autoparser::NoToken;
-
     use super::*;
 
     autoparser::impl_rules! {
@@ -39,20 +37,29 @@ pub mod ast {
       Root { expr: Expr } => (expr, Token::Eof),
       enum Expr => Value | Object | Array,
 
-      Array { content: ArrayContent } => (OpenBracket {}, content, CloseBracket {}),
-      enum ArrayContent => ArrayField | NoToken,
-      ArrayField { value: Box<Expr>, next: Box<ArrayNext> } => (value, next),
-      ArrayNextField { next: Box<ArrayField> } => (Comma {}, next),
-      enum ArrayNext => ArrayNextField | NoToken,
+      Array { first: Option<ArrayItem>, next: Vec<ArrayNext> } => (OpenBracket {}, first, next, CloseBracket {}),
+      ArrayNext { next: ArrayItem } => (Comma {}, next),
+      ArrayItem { value: Box<Expr> } => value,
 
-      Object { content: ObjectContent } => (OpenBrace {}, content, CloseBrace {}),
-      enum ObjectContent => ObjectField | NoToken,
-      ObjectField { key: StringValue, value: Box<Expr>, next: Box<ObjectNext> } => (key, Colon {}, value, next),
-      ObjectNextField { next: Box<ObjectField> } => (Comma {}, next),
-      enum ObjectNext => ObjectNextField | NoToken,
+      Object { first: Option<ObjectField>, next: Vec<ObjectNext> } => (OpenBrace {}, first, next, CloseBrace {}),
+      ObjectNext { next: ObjectField } => (Comma {}, next),
+      ObjectField { key: StringValue, value: Box<Expr> } => (key, Colon {}, value),
+    }
+
+    impl Object {
+        pub fn iter(&self) -> impl Iterator<Item = &ObjectField> {
+            self.first.iter().chain(self.next.iter().map(|n| &n.next))
+        }
+    }
+
+    impl Array {
+        pub fn iter(&self) -> impl Iterator<Item = &ArrayItem> {
+            self.first.iter().chain(self.next.iter().map(|n| &n.next))
+        }
     }
 }
 
+use ast::{Object, ObjectField};
 use autoparser::{Parse, Source, TokenStream};
 
 fn main() {
@@ -79,6 +86,14 @@ fn main() {
     let ast_result = ast::Root::try_parse(&mut tokens); // or tokens.try_parse::<ast::Expr>()
 
     println!("{ast_result:#?}");
+
+    assert!(matches!(
+        ast_result.unwrap().value.expr,
+        ast::Expr::Object(Object { first: Some(ObjectField { value, ..}), .. })
+          if matches!(value.as_ref(), ast::Expr::Object(obj)
+            if obj.iter().count() == 3
+          )
+    ));
 }
 
 const TEST_JSON: &str = r#"
