@@ -102,14 +102,14 @@ The `Token` enum, `Scanner` struct and each AST Node can now be used together:
 
 ## How does it work?
 
-- **impl_scanner**
+- **impl_scanner!()**
    - The scanner scans the source code for the token strings and regexes. The scanner will always match static strings before trying to match regexes. Return a Vec of tokens.
    - Each token is defined as a variant on the Token enum.
-   - `Parse<Self>` is implemented for the newly created Token enum.
+   - trait `Parse<Self>` is implemented for the newly created Token enum.
   
-- **impl_scanner**
+- **impl_rules!()**
     - Generates a struct/enum for each rule with it's data. (representing the ast node)
-    - `Parse<Token>` is implemented for each node struct/enum, it first matches the rule, then the data.
+    - trait `Parse<Token>` is implemented for each node struct/enum, it first matches the rule, then the data.
     - Composite rules can be defined using tuples, such as (A, B, C, ...). Unlike enums, composite rules require all child rules to match for the composite rule to succeed.
 
 ****************************
