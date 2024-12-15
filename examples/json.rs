@@ -10,8 +10,8 @@ autoparser::impl_scanner! {
 
   Null => "null",
   String { content: String } @regex => "^\"(?<content>([^\"]*))\"",
-  BoolValue { value: bool } @regex => "^(?<value>true|false)",
-  IntValue { number: u32 } @regex => "^(?<number>(\\d)+)",
+  Bool { value: bool } @regex => "^(?<value>true|false)",
+  Int { number: u32 } @regex => "^(?<number>(\\d)+)",
 
   Eof => "",
 }
@@ -31,8 +31,8 @@ pub mod ast {
       Colon => Token::Colon,
 
       StringValue { content: String } => Token::String { content },
-      BoolValue { value: bool } => Token::BoolValue { value },
-      IntValue { number: u32 } => Token::IntValue { number },
+      BoolValue { value: bool } => Token::Bool { value },
+      IntValue { number: u32 } => Token::Int { number },
       NullValue => Token::Null,
       enum Value => StringValue | BoolValue | IntValue | NullValue,
 
