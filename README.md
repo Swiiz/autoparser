@@ -47,8 +47,8 @@ autoparser::impl_rules! {
 // Rules can also be an union of rules using the `enum` keyword and the `|` operator.
   enum Expr => AddOperation | SubOperation | Unary,
 // Rules can be recursive, however you need to use the Box<T> type to avoid infinite ast node size.
-  AddOperation { left: Factor, right: Box<Expr> } => (left, AddOperator {}, right),
-  SubOperation { left: Factor, right: Box<Expr> } => (left, SubOperator {}, right),
+  AddOperation { left: Unary, right: Box<Expr> } => (left, AddOperator {}, right),
+  SubOperation { left: Unary, right: Box<Expr> } => (left, SubOperator {}, right),
 
   enum Unary => InverseOperation | Literal,
   InverseOperation { literal: Literal } => (SubOperator {}, literal),
