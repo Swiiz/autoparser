@@ -50,8 +50,8 @@ autoparser::impl_rules! {
   AddOperation { left: Unary, right: Box<Expr> } => (left, AddOperator {}, right),
   SubOperation { left: Unary, right: Box<Expr> } => (left, SubOperator {}, right),
 
-  enum Unary => InverseOperation | Literal,
-  InverseOperation { literal: Literal } => (SubOperator {}, literal),
+  enum Unary => NegateOperation | Literal,
+  NegateOperation { literal: Literal } => (SubOperator {}, literal),
   Literal { number: u32 } => Token::NumberLiteral { number },
 }
 ```	

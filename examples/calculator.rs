@@ -40,8 +40,8 @@ pub mod ast {
       MulOperation { left: Unary, right: Box<Term> } => (left, MulOperator {}, right),
       DivOperation { left: Unary, right: Box<Term> } => (left, DivOperator {}, right),
 
-      enum Unary => InverseOperation | Primary,
-      InverseOperation { primary: Primary } => (SubOperator {}, primary),
+      enum Unary => NegateOperation | Primary,
+      NegateOperation { primary: Primary } => (SubOperator {}, primary),
 
       enum Primary => Literal | Identifier | Group,
     }
